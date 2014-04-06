@@ -1,0 +1,53 @@
+.uk-container.uk-container-center
+  h1.uk-text-center
+    | Tadalas
+    small 画像ぺたぺたするやつ（※ただしログはラスト1枚に限る）
+
+.uk-container.uk-container-center.uk-margin-bottom
+  .uk-panel.uk-panel-box.picture-panel
+    .picture-panel-inner
+      img#js-picture src='/picture' data-url='/picture'
+
+.uk-container.uk-container-center.uk-margin-bottom
+  .uk-panel.uk-panel-box.uk-width-medium-1-2.uk-container-center
+    form action='/picture' method='post' enctype='multipart/form-data'
+      .uk-text-center
+        input type='hidden' name='authenticity_token' value=session[:csrf]
+        input type='file' name='file'
+      br
+      .uk-text-center
+        button.uk-button type='submit'
+          | ルールに同意してアップロード
+      h3 ルール
+      ul
+        li
+          | 他人の権利を侵害する画像は投稿できません
+          ul
+            li 他人の写真とか他の人の描いた絵とかはダメです
+        li
+          | 年齢制限しないといけないような画像は投稿できません
+          ul
+            li エロとかグロとかはダメです
+        li
+          | すごい勢いでアップロードしまくるのはダメです
+          ul
+            li 1秒に100枚アップロードするとかやめてください＞＜
+        li
+          | ここにアップロードされた画像を勝手に使ったりしたらダメです
+        li
+          | いきなりサービス終了するかもしれません。
+          ul
+            li 運営にお金かかるようになったらやめます
+
+footer.uk-text-center
+  p
+    | 中の人:
+    | &nbsp;
+    a href='https://twitter.com/ru_shalm'
+      | @ru_shalm
+
+coffee:
+  io = new RocketIO().connect()
+  io.on 'reload', (value) ->
+    picture = $('#js-picture')
+    picture.attr('src', "#{picture.data('url')}?#{$.now()}")
